@@ -1,0 +1,4 @@
+<% response = Yelp.client.search_by_coordinates(coordinates, { term: 'coffee' }) %>
+<% response.businesses.each do |business| %>
+  <p>Name: <%= business.name %></p>
+<% end %>

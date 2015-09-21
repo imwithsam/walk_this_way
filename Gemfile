@@ -31,6 +31,12 @@ gem 'puma'
 # Use Bootstrap 4
 gem 'bootstrap', git: 'https://github.com/twbs/bootstrap-rubygem'
 
+# Use Figaro for Rails ENV configuration
+gem 'figaro'
+
+# Use Yelp API
+gem 'yelp', require: 'yelp'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
