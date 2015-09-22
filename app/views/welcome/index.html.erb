@@ -5,11 +5,12 @@
     limit: 10
   }) %>
 <div class="table-responsive">
-<table class="table">
-  <thead>
+<table class="table table-sm table-striped">
+  <thead class="thead-inverse">
     <tr>
       <th>&nbsp;</th>
-      <th>Name</th>
+      <th>Business</th>
+      <th>Neighborhood</th>
       <th>Distance</th>
       <th>Walk Score&reg;</th>
     </tr>
@@ -17,7 +18,12 @@
 <% response.businesses.each do |business| %>
   <tr>
     <td><%= image_tag business.image_url %></td>
-    <td><%= business.name %></td>
+    <td>
+      <%= business.name %><br>
+      <%= business.location.address.join(", ") %><br>
+      <%= business.location.city %>, <%= business.location.state_code %> <%= business.location.postal_code %><br>
+    </td>
+    <td><%= business.location.neighborhoods.join(", ") %></td>
     <td><%= "%.2f" % (business.distance * 0.000621371) %> mi</td>
     <td><%= rand(1..100) %></td>
   </tr>
