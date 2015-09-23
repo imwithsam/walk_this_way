@@ -1,22 +1,35 @@
+require "open-uri"
+
 class SearchController < ApplicationController
   def index
-    if params[:address]
-      location = params[:address]
-      @response = Yelp.client.search(
-        location,
-        {
-          sort: 1,
-          radius_filter: 8047,
-          limit: 10
-        })
+    if address
+      begin
+        @response = search_by_address(address)
+      rescue
+        @response = search_by_coordinates(coordinates)
+      end
     else
-      @response = Yelp.client.search_by_coordinates(
-        coordinates,
-        {
-          sort: 1,
-          radius_filter: 8047,
-          limit: 10
-        })
+      @response = search_by_coordinates(coordinates)
     end
+  end
+
+  private
+
+  def search_by_address(address)
+    Yelp.client.search(
+      address,
+      {
+        limit: 10
+      }
+    )
+  end
+
+  def search_by_coordinates(coordinates)
+    Yelp.client.search_by_coordinates(
+      coordinates,
+      {
+        limit: 10
+      }
+    )
   end
 end

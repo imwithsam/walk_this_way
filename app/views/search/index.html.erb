@@ -11,7 +11,7 @@
           <th>Business</th>
           <th>Neighborhood</th>
           <th>Distance</th>
-          <th>Walk Score&reg;</th>
+          <th><%= image_tag "https://cdn.walk.sc/images/api-logo.png", alt: "Walk Score&reg;" %></th>
         </tr>
       </thead>
 <%# TODO: Refactor respond_to methods %>
@@ -25,9 +25,10 @@
             <%= business.location.city if business.location.respond_to?(:city) %>, <%= business.location.state_code if business.location.respond_to?(:state_code) %> <%= business.location.postal_code if business.location.respond_to?(:postal_code) %><br>
           <% end %>
         </td>
-        <td><%= business.location.neighborhoods.join(", ") if business.respond_to?(:location) && business.location.respond_to?(:neighborhoods) %></td>
+        <td><%= business.location.neighborhoods.join("<br>").html_safe if business.respond_to?(:location) && business.location.respond_to?(:neighborhoods) %></td>
         <td><%= ("%.2f" % (business.distance * 0.000621371) + " mi") if business.respond_to?(:distance) %></td>
-        <td><%= rand(1..100) %></td>
+        <% walk_data = walk_score(business.location.address.join(", "), business.location.coordinate.latitude, business.location.coordinate.longitude) %>
+        <td><%= link_to "#{walk_data[:walkscore]}<br>#{walk_data[:description]}".html_safe, walk_data[:ws_link], target: "_blank" %></td>
       </tr>
     <% end %>
     </table>
