@@ -14,16 +14,19 @@
           <th>Walk Score&reg;</th>
         </tr>
       </thead>
+<%# TODO: Refactor respond_to methods %>
     <% @response.businesses.each do |business| %>
       <tr>
-        <td><%= image_tag business.image_url %></td>
+        <td><%= image_tag business.image_url if business.respond_to?(:image_url) %></td>
         <td>
-          <%= business.name %><br>
-          <%= business.location.address.join(", ") %><br>
-          <%= business.location.city %>, <%= business.location.state_code %> <%= business.location.postal_code %><br>
+          <%= business.name if business.respond_to?(:name) %><br>
+          <% if business.respond_to?(:location) %>
+            <%= business.location.address.join(", ") if business.location.respond_to?(:address) %><br>
+            <%= business.location.city if business.location.respond_to?(:city) %>, <%= business.location.state_code if business.location.respond_to?(:state_code) %> <%= business.location.postal_code if business.location.respond_to?(:postal_code) %><br>
+          <% end %>
         </td>
-        <td><%= business.location.neighborhoods.join(", ") %></td>
-        <td><%= "%.2f" % (business.distance * 0.000621371) %> mi</td>
+        <td><%= business.location.neighborhoods.join(", ") if business.respond_to?(:location) && business.location.respond_to?(:neighborhoods) %></td>
+        <td><%= ("%.2f" % (business.distance * 0.000621371) + " mi") if business.respond_to?(:distance) %></td>
         <td><%= rand(1..100) %></td>
       </tr>
     <% end %>

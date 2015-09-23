@@ -11,18 +11,12 @@ class ApplicationController < ActionController::Base
   private
 
   def latitude
-    if cookies[:latitude]
-      cookies[:latitude];
-    else
-      "39.749631099999995";
-    end
+    # Default to Turing School latitude
+    cookies[:latitude] ||= "39.749631099999995"
   end
 
   def longitude
-    if cookies[:longitude]
-      cookies[:longitude];
-    else
-      "-105.0002013";
-    end
+    # Default to Turing School longitude
+    cookies[:longitude] ||= "-105.0002013"
   end
 end
