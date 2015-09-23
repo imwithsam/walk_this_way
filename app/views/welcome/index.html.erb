@@ -1,26 +1,16 @@
-<% response = Yelp.client.search_by_coordinates(coordinates, {
-    term: "coffee",
-    sort: 1,
-    radius_filter: 8047,
-    limit: 10
-  }) %>
-<div class="table-responsive">
-<table class="table">
-  <thead>
-    <tr>
-      <th>&nbsp;</th>
-      <th>Name</th>
-      <th>Distance</th>
-      <th>Walk Score&reg;</th>
-    </tr>
-  </thead>
-<% response.businesses.each do |business| %>
-  <tr>
-    <td><%= image_tag business.image_url %></td>
-    <td><%= business.name %></td>
-    <td><%= "%.2f" % (business.distance * 0.000621371) %> mi</td>
-    <td><%= rand(1..100) %></td>
-  </tr>
-<% end %>
-</table>
-</div>
+<!DOCTYPE html>
+<html id="landing-page">
+<head>
+  <title>Walk This Way</title>
+  <%= stylesheet_link_tag    "application", media: "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <%= render "/layouts/navbar" %>
+  <div class="center">
+    <h1>Walk This Way</h1>
+    <%= render "layouts/search" %>
+  </div>
+</body>
+</html>

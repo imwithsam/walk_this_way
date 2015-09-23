@@ -1,6 +1,5 @@
-<%= form_tag("/search") %>
-<%# field_set_tag nil, class: "form-group" do %>
-  <%= label_tag "Address" %>
-  <%= text_field_tag "Address" %>
-<%# end %>
-<%= submit_tag "Search", class: "btn btn-primary" %>
+<%= form_tag("/search", method: :get, class: "form-inline") %>
+<%= text_field_tag "Address", nil, class: "form-control",
+  size: "30",
+  placeholder: "Where do you want to walk?" %>
+<%= submit_tag "Walk", class: "btn btn-primary" %>
