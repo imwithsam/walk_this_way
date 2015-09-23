@@ -1,8 +1,8 @@
 <nav class="navbar navbar-fixed-top navbar-dark bg-primary">
-  <a class="navbar-brand" href="#">Walk This Way</a>
+  <%= link_to "Walk This Way", root_path, class: "navbar-brand" %>
   <ul class="nav navbar-nav">
     <li class="nav-item active">
-      <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      <%= link_to "Search", search_path, class: "nav-link" %>
     </li>
   </ul>
   <div class="pull-right"><fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
