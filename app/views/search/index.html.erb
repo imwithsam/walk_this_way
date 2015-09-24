@@ -12,10 +12,11 @@
           <th>Neighborhood</th>
           <th>Distance</th>
           <th><%= image_tag "https://cdn.walk.sc/images/api-logo.png", alt: "Walk Score&reg;" %></th>
+          <th>&nbsp;</th>
         </tr>
       </thead>
 <%# TODO: Refactor respond_to methods %>
-    <% @response.businesses.each do |business| %>
+    <% @response.businesses.each_with_index do |business, index| %>
       <tr>
         <td><%= image_tag business.image_url if business.respond_to?(:image_url) %></td>
         <td>
@@ -23,12 +24,34 @@
           <% if business.respond_to?(:location) %>
             <%= business.location.address.join(", ") if business.location.respond_to?(:address) %><br>
             <%= business.location.city if business.location.respond_to?(:city) %>, <%= business.location.state_code if business.location.respond_to?(:state_code) %> <%= business.location.postal_code if business.location.respond_to?(:postal_code) %><br>
+          <!-- Modal Start -->
+          <div class="modal fade" id="directions-<%= index %>" tabindex="-1" role="dialog" aria-labelledby="directions-<%= index %> modal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                  </button>
+                  <h4 class="modal-title" id="directions-<%= index %> modal">Walk to <%= business.name %></h4>
+                </div>
+                <div class="modal-body">
+                  <iframe width="570" height="400" frameborder="0" style="border:0" src="<%= directions_url("#{coordinates[:latitude]}, #{coordinates[:longitude]}", "#{business.location.coordinate.latitude}, #{business.location.coordinate.longitude}") %>" allowfullscreen></iframe>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Model End -->
           <% end %>
         </td>
         <td><%= business.location.neighborhoods.join("<br>").html_safe if business.respond_to?(:location) && business.location.respond_to?(:neighborhoods) %></td>
         <td><%= ("%.2f" % (business.distance * 0.000621371) + " mi") if business.respond_to?(:distance) %></td>
         <% walk_data = walk_score(business.location.address.join(", "), business.location.coordinate.latitude, business.location.coordinate.longitude) %>
         <td><%= link_to "#{walk_data[:walkscore]}<br>#{walk_data[:description]}".html_safe, walk_data[:ws_link], target: "_blank" %></td>
+        <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#directions-<%= index %>">Directions</button></td>
       </tr>
     <% end %>
     </table>
