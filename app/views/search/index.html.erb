@@ -15,15 +15,13 @@
           <th>&nbsp;</th>
         </tr>
       </thead>
-<%# TODO: Refactor respond_to methods %>
-    <% @response.businesses.each_with_index do |business, index| %>
+    <% @businesses.each_with_index do |business, index| %>
       <tr>
-        <td><%= image_tag business.image_url if business.respond_to?(:image_url) %></td>
+        <td><%= image_tag business.image_url %></td>
         <td>
-          <%= business.name if business.respond_to?(:name) %><br>
-          <% if business.respond_to?(:location) %>
-            <%= business.location.address.join(", ") if business.location.respond_to?(:address) %><br>
-            <%= business.location.city if business.location.respond_to?(:city) %>, <%= business.location.state_code if business.location.respond_to?(:state_code) %> <%= business.location.postal_code if business.location.respond_to?(:postal_code) %><br>
+          <%= business.name %><br>
+            <%= business.location.full_address %><br>
+            <%= business.location.city %>, <%= business.location.state_code %> <%= business.location.postal_code %><br>
           <!-- Modal Start -->
           <div class="modal fade" id="directions-<%= index %>" tabindex="-1" role="dialog" aria-labelledby="directions-<%= index %> modal" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -45,11 +43,10 @@
             </div>
           </div>
           <!-- Model End -->
-          <% end %>
         </td>
-        <td><%= business.location.neighborhoods.join("<br>").html_safe if business.respond_to?(:location) && business.location.respond_to?(:neighborhoods) %></td>
-        <td><%= ("%.2f" % (business.distance * 0.000621371) + " mi") if business.respond_to?(:distance) %></td>
-        <% walk_data = walk_score(business.location.address.join(", "), business.location.coordinate.latitude, business.location.coordinate.longitude) %>
+        <td><%= business.location.neighborhoods_html %></td>
+        <td><%= ("%.2f" % (business.distance * 0.000621371) + " mi") %></td>
+        <% walk_data = walk_score(business.location.full_address, business.location.coordinate.latitude, business.location.coordinate.longitude) %>
         <td><%= link_to "#{walk_data[:walkscore]}<br>#{walk_data[:description]}".html_safe, walk_data[:ws_link], target: "_blank" %></td>
         <td><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#directions-<%= index %>">Directions</button></td>
       </tr>
