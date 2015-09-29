@@ -22,7 +22,7 @@ class YelpBusinessLocation
   end
 
   def neighborhoods_html
-    neighborhoods.join(", ").join("<br>").html_safe if neighborhoods
+    neighborhoods.join("<br>").html_safe if neighborhoods
   end
 
   def try_to_delegate_to_burst_struct(name)
