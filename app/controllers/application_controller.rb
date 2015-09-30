@@ -16,15 +16,11 @@ class ApplicationController < ActionController::Base
   end
 
   def walk_score(address, latitude, longitude)
-    url = URI.parse("http://api.walkscore.com/score?format=json&lat=#{latitude}&lon=#{longitude}&wsapikey=#{ENV['walk_score_api_key']}")
-    JSON.parse(url.read, symbolize_names: true)
+    Rails.cache.fetch("walk_score", expires_in: 15.minutes) do
+      url = URI.parse("http://api.walkscore.com/score?format=json&lat=#{latitude}&lon=#{longitude}&wsapikey=#{ENV['walk_score_api_key']}")
+      JSON.parse(url.read, symbolize_names: true)
+    end
   end
-
-  # TODO: Remove if not used in final product
-  # def directions(origin, destination)
-  #   url = URI.parse("https://maps.googleapis.com/maps/api/directions/json?mode=walking&origin=#{origin}&destination=#{destination}&key=#{ENV['google_server_api_key']}")
-  #   JSON.parse(url.read, symbolize_names: true)
-  # end
 
   def directions_url(origin, destination)
     "https://www.google.com/maps/embed/v1/directions?mode=walking&origin=#{origin}&destination=#{destination}&key=#{ENV['google_browser_api_key']}"
