@@ -16,8 +16,9 @@ class ApplicationController < ActionController::Base
   end
 
   def walk_score(address, latitude, longitude)
-    Rails.cache.fetch("walk_score", expires_in: 15.minutes) do
-      url = URI.parse("http://api.walkscore.com/score?format=json&lat=#{latitude}&lon=#{longitude}&wsapikey=#{ENV['walk_score_api_key']}")
+    Rails.cache.fetch("walk_score_#{address}_#{latitude}_#{longitude}",
+                      expires_in: 15.minutes) do
+      url = URI.parse("http://api.walkscore.com/score?format=json&address=#{address}&lat=#{latitude}&lon=#{longitude}&wsapikey=#{ENV['walk_score_api_key']}")
       JSON.parse(url.read, symbolize_names: true)
     end
   end

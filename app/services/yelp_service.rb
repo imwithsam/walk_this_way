@@ -1,6 +1,6 @@
 class YelpService
   def search_by_address(address)
-    Rails.cache.fetch("yelp_search_by_address", expires_in: 15.minutes) do
+    Rails.cache.fetch("yelp_search_#{address}", expires_in: 15.minutes) do
       response = Yelp.client.search(
         address,
         {
@@ -15,7 +15,7 @@ class YelpService
   end
 
   def search_by_coordinates(coordinates)
-    Rails.cache.fetch("yelp_search_by_coordinates", expires_in: 15.minutes) do
+    Rails.cache.fetch("yelp_search_#{coordinates}", expires_in: 15.minutes) do
       response = Yelp.client.search_by_coordinates(
         coordinates,
         {
