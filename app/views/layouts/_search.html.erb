@@ -1,7 +1,7 @@
 <%= form_tag("/search", method: :get, class: "form-inline") %>
 <%= text_field_tag "address", nil, class: "form-control",
   size: "30",
-  placeholder: address || "Where do you want to walk?" %>
+  placeholder: address || "Where are you walking from?" %>
 <%= submit_tag "Walk", class: "btn btn-primary" %><br>
 <%= text_field_tag "term", nil, class: "form-control",
   size: "30",
