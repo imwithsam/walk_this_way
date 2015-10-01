@@ -5,7 +5,13 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  helper_method :coordinates, :address, :walk_score, :directions, :directions_url
+  helper_method :coordinates,
+                :address,
+                :origin,
+                :term,
+                :walk_score,
+                :directions,
+                :directions_url
 
   def coordinates
     { latitude: latitude, longitude: longitude }
@@ -13,6 +19,18 @@ class ApplicationController < ActionController::Base
 
   def address
     params[:address] if params[:address] && !params[:address].empty?
+  end
+
+  def origin
+    if address
+      CGI::escape(address)
+    else
+      "#{coordinates[:latitude]}, #{coordinates[:longitude]}"
+    end
+  end
+
+  def term
+    params[:term] if params[:term] && !params[:term].empty?
   end
 
   def walk_score(address, latitude, longitude)
