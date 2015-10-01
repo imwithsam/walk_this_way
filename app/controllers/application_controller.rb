@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   helper_method :coordinates,
                 :address,
+                :origin,
                 :term,
                 :walk_score,
                 :directions,
@@ -18,6 +19,14 @@ class ApplicationController < ActionController::Base
 
   def address
     params[:address] if params[:address] && !params[:address].empty?
+  end
+
+  def origin
+    if address
+      CGI::escape(address)
+    else
+      "#{coordinates[:latitude]}, #{coordinates[:longitude]}"
+    end
   end
 
   def term
