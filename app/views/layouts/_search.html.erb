@@ -2,4 +2,7 @@
 <%= text_field_tag "address", nil, class: "form-control",
   size: "30",
   placeholder: address || "Where do you want to walk?" %>
-<%= submit_tag "Walk", class: "btn btn-primary" %>
+<%= submit_tag "Walk", class: "btn btn-primary" %><br>
+<%= text_field_tag "term", nil, class: "form-control",
+  size: "30",
+  placeholder: term || "Find" %>
