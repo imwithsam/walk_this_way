@@ -1,7 +1,9 @@
 class YelpBusiness
   BUSINESS_METHODS = [:image_url,
                       :name,
+                      :url,
                       :location,
+                      :rating_img_url,
                       :distance]
 
   def initialize(burst_struct)

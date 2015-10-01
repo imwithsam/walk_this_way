@@ -19,9 +19,10 @@
       <tr>
         <td><%= image_tag business.image_url %></td>
         <td>
-          <%= business.name %><br>
-            <%= business.location.full_address %><br>
-            <%= business.location.city %>, <%= business.location.state_code %> <%= business.location.postal_code %><br>
+          <%= link_to business.name, business.url, target: "_blank" %><br>
+          <%= business.location.full_address %><br>
+          <%= business.location.city %>, <%= business.location.state_code %> <%= business.location.postal_code %><br>
+          <%= image_tag business.rating_img_url %>
           <!-- Modal Start -->
           <div class="modal fade" id="directions-<%= index %>" tabindex="-1" role="dialog" aria-labelledby="directions-<%= index %> modal" aria-hidden="true">
             <div class="modal-dialog" role="document">
