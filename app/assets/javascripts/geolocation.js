@@ -3,10 +3,10 @@ $(document).ready(function() {
     navigator.geolocation.getCurrentPosition(function(position) {
       $.ajax({
         type: 'POST',
-        url: 'http://localhost:3000/geolocation',
+        url: 'http://walk-this-way.herokuapp.com',
         data: {
-          latitude:'39.749631099999995',
-          longitude: '-105.0002013'
+          latitude: position.coords.latitude,
+          longitude: position.coords.latitude
         }
       });
     });
